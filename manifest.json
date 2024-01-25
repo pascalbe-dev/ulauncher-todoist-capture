@@ -1,0 +1,23 @@
+{
+  "required_api_version": "^2.0.0",
+  "name": "Todoist Capture",
+  "description": "Capture an idea in Todoist",
+  "developer_name": "Pascal Betting",
+  "icon": "images/icon.png",
+  "preferences": [
+    {
+      "id": "td",
+      "type": "keyword",
+      "name": "Todoist",
+      "description": "Capture an idea in Todoist",
+      "default_value": "to"
+    },
+    {
+      "id": "api_token",
+      "type": "input",
+      "name": "Todoist API token",
+      "description": "The API token provided by Todist to access the Todoist API. Find it here: https://app.todoist.com/app/settings/integrations/developer",
+      "default_value": ""
+    }
+  ]
+}
