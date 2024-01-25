@@ -6,11 +6,11 @@
   "icon": "images/icon.png",
   "preferences": [
     {
-      "id": "td",
+      "id": "keyword",
       "type": "keyword",
       "name": "Todoist",
       "description": "Capture an idea in Todoist",
-      "default_value": "to"
+      "default_value": "td"
     },
     {
       "id": "api_token",
