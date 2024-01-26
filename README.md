@@ -4,7 +4,7 @@
 
 ## Usage
 
-TODO: ADD DEMO GIF
+https://github.com/pascalbe-dev/ulauncher-todoist-capture/assets/26909176/27b6ec34-4599-4f61-a358-89e2a0587130
 
 ## Features
 
