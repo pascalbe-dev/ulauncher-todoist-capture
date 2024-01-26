@@ -43,7 +43,7 @@ class KeywordQueryEventListener(EventListener):
             ExtensionResultItem(
                 icon='images/icon.png',
                 name='Capture "%s"' % text,
-                description='Hit enter to capture this note in your inbox!',
+                description='Hit enter to capture this task in your inbox!',
                 on_enter=ExtensionCustomAction(text, keep_app_open=True)
             )
         ])
@@ -51,7 +51,7 @@ class KeywordQueryEventListener(EventListener):
 class ItemEnterEventListener(EventListener):
     def on_event(self, event, extension):
         task_name = event.get_data()
-        logger.info("Capturing note: %s" % task_name)
+        logger.info("Capturing task: %s" % task_name)
 
         result = extension.todoist_api.add_task(task_name)
 
