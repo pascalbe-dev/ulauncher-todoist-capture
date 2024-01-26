@@ -29,7 +29,7 @@ class TodoistCaptureExtension(Extension):
 
 
 class KeywordQueryEventListener(EventListener):
-    def on_event(self, event, extension):
+    def on_event(self, event, extension: TodoistCaptureExtension):
         text = event.get_argument() or None
 
         if not text:
@@ -49,7 +49,7 @@ class KeywordQueryEventListener(EventListener):
         ])
 
 class ItemEnterEventListener(EventListener):
-    def on_event(self, event, extension):
+    def on_event(self, event, extension: TodoistCaptureExtension):
         task_name = event.get_data()
         logger.info("Capturing task: %s" % task_name)
 
@@ -75,12 +75,12 @@ class ItemEnterEventListener(EventListener):
         )])
 
 class PreferencesEventListener(EventListener):
-    def on_event(self, event, extension):
+    def on_event(self, event, extension: TodoistCaptureExtension):
         extension.keyword = event.preferences["keyword"]
         extension.todoist_api.set_token(event.preferences["api_token"])
 
 class PreferencesUpdateEventListener(EventListener):
-    def on_event(self, event, extension):
+    def on_event(self, event, extension: TodoistCaptureExtension):
         if event.id == "api_token":
             extension.todoist_api.set_token(event.preferences["api_token"])
 
