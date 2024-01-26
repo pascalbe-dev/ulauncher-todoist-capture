@@ -1,7 +1,6 @@
 import logging
-import time
 
-import requests
+from src.todoist_api import TodoistApi
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.client.Extension import Extension
 from ulauncher.api.shared.action.ExtensionCustomAction import \
@@ -18,8 +17,7 @@ from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 logger = logging.getLogger(__name__)
 
 class TodoistCaptureExtension(Extension):
-
-    url = "https://api.todoist.com/rest/v2/tasks"
+    todoist_api = TodoistApi()
 
     def __init__(self):
         super(TodoistCaptureExtension, self).__init__()
@@ -32,9 +30,9 @@ class TodoistCaptureExtension(Extension):
 
 class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
-        text = event.get_argument() or ""
+        text = event.get_argument() or None
 
-        if text == "":
+        if not text:
             return RenderResultListAction([ExtensionResultItem(
                 icon='images/icon.png',
                 name='Type something to capture',
@@ -50,58 +48,41 @@ class KeywordQueryEventListener(EventListener):
             )
         ])
 
-
-
 class ItemEnterEventListener(EventListener):
     def on_event(self, event, extension):
-        logger.info("Capturing note: %s" % event.get_data())
-        response = requests.post(
-            extension.url,
-            json={
-                "content": event.get_data(),
-            },
-            headers={
-                "Authorization": "Bearer %s" % extension.token,
-                "X-Request-Id": str(time.time()),
-                "Content-Type": "application/json",
-            }
-        )
+        task_name = event.get_data()
+        logger.info("Capturing note: %s" % task_name)
 
-        if response.status_code != 200:
-            notify_message = "Error capturing note: %s" % response.status_code
-            logger.error(notify_message)
+        result = extension.todoist_api.add_task(task_name)
+
+        if result:
+            message = result
+            logger.error(message)
             return RenderResultListAction([ExtensionResultItem(
                 icon='images/icon.png',
-                name=notify_message,
+                name=message,
                 description='Press enter to dismiss',
                 on_enter=HideWindowAction()
             )])
 
-        notify_message = "Note captured: %s" % event.get_data()
-        logger.info(notify_message)
+        message = "Task captured: %s" % task_name
+        logger.info(message)
         return RenderResultListAction([ExtensionResultItem(
             icon='images/icon.png',
-            name=notify_message,
+            name=message,
             description='Press enter to dismiss',
             on_enter=HideWindowAction()
         )])
 
-
-
-
-
 class PreferencesEventListener(EventListener):
     def on_event(self, event, extension):
-        extension.token = event.preferences["api_token"]
         extension.keyword = event.preferences["keyword"]
-
+        extension.todoist_api.set_token(event.preferences["api_token"])
 
 class PreferencesUpdateEventListener(EventListener):
     def on_event(self, event, extension):
         if event.id == "api_token":
-            extension.token = event.new_value
-            extension.keyword = event.preferences["keyword"]
-
+            extension.todoist_api.set_token(event.preferences["api_token"])
 
 if __name__ == "__main__":
     TodoistCaptureExtension().run()
