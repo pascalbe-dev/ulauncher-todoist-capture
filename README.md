@@ -2,7 +2,7 @@
 
 > [ulauncher](https://ulauncher.io/) Extension to capture an idea in your [Todoist](https://todoist.com/) inbox.
 
-## Usage
+## Demo
 
 https://github.com/pascalbe-dev/ulauncher-todoist-capture/assets/26909176/27b6ec34-4599-4f61-a358-89e2a0587130
 
@@ -15,15 +15,19 @@ https://github.com/pascalbe-dev/ulauncher-todoist-capture/assets/26909176/27b6ec
 - [ulauncher 5](https://ulauncher.io/)
 - Python > 3
 
-## Install
+## Installation
 
 Open ulauncher preferences window -> extensions -> add extension and paste the following url:
 
 `https://github.com/pascalbe-dev/ulauncher-todoist-capture.git`
 
-## Usage
+## Configuration
 
 - Before usage you need to configure your Todoist API token in plugin preferences. Find or create your API token [here](https://app.todoist.com/app/settings/integrations/developer).
+
+## Contribution
+
+Please refer to [the contribution guidelines](./CONTRIBUTING.md)
 
 ## Local development
 
